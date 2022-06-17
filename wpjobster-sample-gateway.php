@@ -46,7 +46,7 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 									'Do you have any special instructions for your gateway?',
 									'You can put them here.',
 								),
-								'license'              => true, // include license field
+								'license'              => false, // include license field
 								'enable'               => true, // include enable field
 								'enable_sandbox'       => true, // include enable sandbox field
 								'exclude_payment_type' => array( 'withdraw' ), // exclude payment types from options; accepted values: job_purchase, 'topup', 'featured', 'withdraw', 'tips', 'subscription', 'custom_extra'
