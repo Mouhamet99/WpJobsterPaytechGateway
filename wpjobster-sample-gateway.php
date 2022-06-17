@@ -100,11 +100,79 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 										'unique_id' => 'wpjobster_paytech_secret_key',
 										'type'      => 'text',
 										'title'     => __( 'Paytech secret key', 'wpjobster-paytech' )
-									)
+									),
+									//Added FIELD
+									 array(
+										'unique_id'=>'enabled',
+										'title' => __('Activer/Désactiver', 'wpjobster-paytech'),
+										'type' => 'checkbox',
+										'label' => __('Activer le module de paiement PAYTECH.', 'wpjobster-paytech'),
+										'default' => 'no'),
+									 array(
+										'unique_id'=>'title',
+										'title' => __('Titre:', 'wpjobster-paytech'),
+										'type' => 'text',
+										'description' => __('Texte que verra le client lors du paiement de sa commande.', 'paytech'),
+										'default' => __('Paiement avec PayTech', 'wpjobster-paytech')),
+									 array(
+										'unique_id'=>'description',
+										'title' => __('Description:', 'wpjobster-paytech'),
+										'type' => 'textarea',
+										'description' => __('Description que verra le client lors du paiement de sa commande.', 'paytech'),
+										'default' => __('Payer via PayTech avec Visa, MasterCard, Orange Money, Free Money…', 'paytech', 'paytech')),
+					
+									 array(
+										'unique_id'=>'api_key',
+										'title' => __("Clé de l'api", 'wpjobster-paytech'),
+										'type' => 'text',
+										'description' => __("Clé de l'api fournie par PAYTECH ")),
+									 array(
+										'unique_id'=>'secret_key',
+										'title' => __("Clé secrete de l'api", 'wpjobster-paytech'),
+										'type' => 'text',
+										'description' => __('Clé secrete fournie par PAYTECH .')),
+									 array(
+										'unique_id'=>'env',
+										'title' => __("Environnement", 'wpjobster-paytech'),
+										'description' => __('Votre envirionnement de travail TEST ou PRODUCTION.'),
+										'css' => 'padding:0%;',
+										'type' => 'select',
+										'options' => array('prod' => 'Production', 'test' => 'Test'),
+									),
+					
+									 array(
+										'unique_id'=>'status_after_payment',
+										'title' => __("Statut après le paiement", 'wpjobster-paytech'),
+										'description' => __('Statut après le paiement'),
+										'css' => 'padding:0%;',
+										'type' => 'select',
+										'options' => array(
+											'processing' => 'En cours',
+											'completed' => 'Terminé',
+										),
+										'default' => 'completed'
+									),
+									 array(
+										'unique_id'=>'open_mode',
+										'title' => __("Mode ouverture de la page de paiement", 'wpjobster-paytech'),
+										'description' => __('Mode ouverture de la page de paiement'),
+										'css' => 'padding:0%;',
+										'type' => 'select',
+										'options' => array(
+											'popup' => 'Popup',
+											'window' => 'Nouvelle Fenêtre',
+										),
+										'default' => 'popup'
+									),
+									//End Added FIELD
+								)
+								
+									
+					
 								)
 							)
 						)
-					) );
+					);
 				}
 			});
 
