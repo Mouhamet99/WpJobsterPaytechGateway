@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: WPJobster Sample Gateway
+ * Plugin Name: WPJobster Paytech Gateway
  * Plugin URI: http://wpjobster.com/
- * Description: This plugin extends Jobster Theme to accept payments with Sample.
+ * Description: This plugin extends Jobster Theme to accept payments with Paytech.
  * Author: WPJobster
  * Author URI: http://wpjobster.com/
  * Version: 3.0.3
@@ -15,16 +15,16 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 // Defines
-define( 'WPJ_SAMPLE_VERSION'               , '3.0.3' );
-define( 'WPJ_SAMPLE_REQUIRED_THEME_VERSION', '6.0.9' );
+define( 'WPJ_PAYTECH_VERSION'               , '3.0.3' );
+define( 'WPJ_PAYTECH_REQUIRED_THEME_VERSION', '6.0.9' );
 
-if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
+if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 
-	class WPJobster_Sample_Loader {
+	class WPJobster_Paytech_Loader {
 
 		public function __construct() {
 			// Define gateway unique slug
-			$this->unique_id = 'sample';
+			$this->unique_id = 'paytech';
 
 
 /* ADMIN */
@@ -33,15 +33,15 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 			add_action( 'wpj_after_admin_paypal_settings_fields', function() {
 				if ( class_exists( 'Redux' ) ) {
 					Redux::setSection( 'jobster_settings', array(
-						'id'         => 'sample-settings', // settings option name
-						'title'      => __( 'Sample', 'wpjobster-sample' ), // gateway settings page title
-						'desc'       => __( 'Sample Settings', 'wpjobster-sample' ), // gateway settings page description
+						'id'         => 'paytech-settings', // settings option name
+						'title'      => __( 'Paytech', 'wpjobster-paytech' ), // gateway settings page title
+						'desc'       => __( 'Paytech Settings', 'wpjobster-paytech' ), // gateway settings page description
 						'subsection' => true, // subsection of Payment Gateways section
 						'fields'     => wpj_get_gateway_default_fields(
 							array(
 								'gateway_id'           => $this->unique_id, // gateway id
-								'gateway_name'         => 'Sample', // gateway name
-								'gateway_version'      => WPJ_SAMPLE_VERSION, // gateway version
+								'gateway_name'         => 'Paytech', // gateway name
+								'gateway_version'      => WPJ_PAYTECH_VERSION, // gateway version
 								'gateway_instructions' => array( // gateway instructions
 									'Do you have any special instructions for your gateway?',
 									'You can put them here.',
@@ -57,49 +57,49 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 								'fail_page_url'        => true, // include transaction failure page field
 								'new_fields'           => array( // extra fields (optional fields)
 									array(
-										'unique_id' => 'sample-settings-section',
+										'unique_id' => 'paytech-settings-section',
 										'type'      => 'section',
-										'title'     => esc_html__( 'Keys', 'wpjobster-sample' ),
+										'title'     => esc_html__( 'Keys', 'wpjobster-paytech' ),
 										'indent'    => true,
 									),
 									array(
-										'unique_id' => 'wpjobster_sample_id',
+										'unique_id' => 'wpjobster_paytech_id',
 										'type'      => 'text',
-										'title'     => __( 'Sample ID', 'wpjobster-sample' ),
+										'title'     => __( 'Paytech ID', 'wpjobster-paytech' ),
 									),
 									array(
-										'unique_id' => 'wpjobster_sample_key',
+										'unique_id' => 'wpjobster_paytech_key',
 										'type'      => 'text',
-										'title'     => __( 'Sample Key', 'wpjobster-sample' )
+										'title'     => __( 'Paytech Key', 'wpjobster-paytech' )
 									),
 
 									array(
-										'unique_id' => 'sample-withdrawal-settings-section',
+										'unique_id' => 'paytech-withdrawal-settings-section',
 										'type'      => 'section',
-										'title'     => esc_html__( 'Withdrawals', 'wpjobster-sample' ),
+										'title'     => esc_html__( 'Withdrawals', 'wpjobster-paytech' ),
 										'indent'    => true,
 									),
 									array(
-										'unique_id'   => 'wpjobster_sample_withdrawal_enable',
+										'unique_id'   => 'wpjobster_paytech_withdrawal_enable',
 										'type'        => 'switch',
-										'title'       => __( 'Enable', 'wpjobster-sample' ),
-										'description' => __( 'Enable/Disable Sample withdrawal payment gateway', 'wpjobster-sample' )
+										'title'       => __( 'Enable', 'wpjobster-paytech' ),
+										'description' => __( 'Enable/Disable Paytech withdrawal payment gateway', 'wpjobster-paytech' )
 									),
 									array(
-										'unique_id'   => 'wpjobster_sample_withdraw_enablesandbox',
+										'unique_id'   => 'wpjobster_paytech_withdraw_enablesandbox',
 										'type'        => 'switch',
-										'title'       => __( 'Enable test mode', 'wpjobster-sample' ),
-										'description' => __( 'Enable/Disable sample withdrawal test mode.', 'wpjobster-sample' )
+										'title'       => __( 'Enable test mode', 'wpjobster-paytech' ),
+										'description' => __( 'Enable/Disable paytech withdrawal test mode.', 'wpjobster-paytech' )
 									),
 									array(
-										'unique_id' => 'wpjobster_sample_client_id',
+										'unique_id' => 'wpjobster_paytech_client_id',
 										'type'      => 'text',
-										'title'     => __( 'Sample client ID', 'wpjobster-sample' ),
+										'title'     => __( 'Paytech client ID', 'wpjobster-paytech' ),
 									),
 									array(
-										'unique_id' => 'wpjobster_sample_secret_key',
+										'unique_id' => 'wpjobster_paytech_secret_key',
 										'type'      => 'text',
-										'title'     => __( 'Sample secret key', 'wpjobster-sample' )
+										'title'     => __( 'Paytech secret key', 'wpjobster-paytech' )
 									)
 								)
 							)
@@ -113,7 +113,7 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 			// Add gateway (button) to payment methods list - add button to checkout page
 			add_filter( 'wpj_payment_gateways_filter', function ( $payment_gateways_list ) {
-				$payment_gateways_list[$this->unique_id] = __( 'Sample', 'wpjobster-sample' );
+				$payment_gateways_list[$this->unique_id] = __( 'Paytech', 'wpjobster-paytech' );
 				return $payment_gateways_list;
 			}, 10, 1 );
 
@@ -125,12 +125,12 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 /* WITHDRAWAL - remove this section if your gateway doesn't support widthdrawal */
 
 			// Add gateway to withdrawal gateways list
-			add_filter( 'wpj_withdrawals_gateways_filter', function( $gateways ) { array_push( $gateways, 'sample' ); return $gateways; }, 10, 1 );
-			add_filter( 'wpj_withdrawals_gateways_filter', function( $gateways ) { array_push( $gateways, 'sample_automatic' ); return $gateways; }, 10, 1 );
+			add_filter( 'wpj_withdrawals_gateways_filter', function( $gateways ) { array_push( $gateways, 'paytech' ); return $gateways; }, 10, 1 );
+			add_filter( 'wpj_withdrawals_gateways_filter', function( $gateways ) { array_push( $gateways, 'paytech_automatic' ); return $gateways; }, 10, 1 );
 
 			// Use this filters if the gateways is made only for withdrawal
-			// add_filter( 'wpj_only_withdrawals_gateways_filter', function( $gateways ) { array_push( $gateways, 'sample' ); return $gateways; }, 10, 1 );
-			// add_filter( 'wpj_only_withdrawals_gateways_filter', function( $gateways ) { array_push( $gateways, 'sample_automatic' ); return $gateways; }, 10, 1 );
+			// add_filter( 'wpj_only_withdrawals_gateways_filter', function( $gateways ) { array_push( $gateways, 'paytech' ); return $gateways; }, 10, 1 );
+			// add_filter( 'wpj_only_withdrawals_gateways_filter', function( $gateways ) { array_push( $gateways, 'paytech_automatic' ); return $gateways; }, 10, 1 );
 
 			// Set gateway withdrawal name to database
 			add_filter( 'wpjobster_withdraw_method_filter', array( $this, 'changeWithdrawMethod' ) );
@@ -153,7 +153,7 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 /* WITHDRAWAL FRONT - remove this section if your gateway doesn't support widthdrawal */
 
-			// Add gateway sample email or sample sample_automatic_payee_id or sample_email to Settings page
+			// Add gateway paytech email or paytech paytech_automatic_payee_id or paytech_email to Settings page
 			// This step should be added to Gutenberg in Admin > Pages> Settings > Edit, using shortcodes.
 
 			// Add gateway to payments page > request withdrawal list
@@ -181,7 +181,7 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 			// Set plugin textdomain
 			add_action( 'plugins_loaded', function () {
-				load_plugin_textdomain( 'wpjobster-sample', false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ) );
+				load_plugin_textdomain( 'wpjobster-paytech', false, trailingslashit( dirname( plugin_basename( __FILE__ ) ) ) );
 			}, 0 );
 
 			// Gateway name translatable - allows the Gateway name to be translated into other languages
@@ -205,21 +205,21 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 			// Callback URL
 			$callback_url = get_bloginfo( 'url' ) . '/?payment_response=' . $this->unique_id . '&payment_id=' . $payment_row->id;
 
-			if ( wpj_get_option( 'wpjobster_sample_id' ) && wpj_get_option( 'wpjobster_sample_key' ) ) {
+			if ( wpj_get_option( 'wpjobster_paytech_id' ) && wpj_get_option( 'wpjobster_paytech_key' ) ) {
 
 				// User info
 				$uid       = get_current_user_id();
 				$user_info = get_userdata( $uid );
 
 				// Action URL
-				if ( wpj_get_option( 'wpjobster_' . $this->unique_id . '_enable_sandbox' ) == 'yes' ) $payment_url = 'https://sample.url';
-				else $payment_url = 'https://test.sample.url';
+				if ( wpj_get_option( 'wpjobster_' . $this->unique_id . '_enable_sandbox' ) == 'yes' ) $payment_url = 'https://paytech.url';
+				else $payment_url = 'https://test.paytech.url';
 
-				// Send data to Sample
+				// Send data to Paytech
 				$fields = array();
 
-				$fields['merchant_id']    = wpj_get_option( 'wpjobster_sample_id' );
-				$fields['merchant_key']   = wpj_get_option( 'wpjobster_sample_key' );
+				$fields['merchant_id']    = wpj_get_option( 'wpjobster_paytech_id' );
+				$fields['merchant_key']   = wpj_get_option( 'wpjobster_paytech_key' );
 
 				$fields['payment_id']     = $payment_row->id;
 				$fields['order_id']       = $order_details['id'];
@@ -244,7 +244,7 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 				// Redirect to payment page
 				wpj_display_gateway_form( $fields, $payment_url );
 
-			} else { wpj_display_order_errors( $payment_type, __( 'Please fill Sample ID and Sample Key fields', 'wpjobster-sample' ) ); }
+			} else { wpj_display_order_errors( $payment_type, __( 'Please fill Paytech ID and Paytech Key fields', 'wpjobster-paytech' ) ); }
 		}
 
 		public function processPayment( $payment_type, $payment_type_class ) { // params from gateways/init.php
@@ -294,14 +294,14 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 				}
 
-			} else wpj_display_order_errors( $payment_type, __( 'Something went wrong! Payment ID is undefined!', 'wpjobster-sample' ) );
+			} else wpj_display_order_errors( $payment_type, __( 'Something went wrong! Payment ID is undefined!', 'wpjobster-paytech' ) );
 		}
 
 
 		/* WITHDRAWAL - remove this section if your gateway doesn't support widthdrawal */
 
 		public function changeWithdrawMethod( $method ) {
-			if ( $_POST['method'] == 'sample_withdraw' ) $method = "Sample";
+			if ( $_POST['method'] == 'paytech_withdraw' ) $method = "Paytech";
 			return $method;
 		}
 
@@ -309,34 +309,34 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 		/* WITHDRAWAL ADMIN - remove this section if your gateway doesn't support widthdrawal */
 
 		public function saveExtraAdminOptions( $options ) {
-			if ( ! empty( $options['wpjobster_sample_withdrawal_enable'] ) ) {
-				if ( $options['wpjobster_sample_withdrawal_enable'] == 'both' ) {
-					update_option( 'wpjobster_sample_automatic_enable_withdraw', 'yes' );
-					update_option( 'wpjobster_sample_enable_withdraw', 'yes' );
+			if ( ! empty( $options['wpjobster_paytech_withdrawal_enable'] ) ) {
+				if ( $options['wpjobster_paytech_withdrawal_enable'] == 'both' ) {
+					update_option( 'wpjobster_paytech_automatic_enable_withdraw', 'yes' );
+					update_option( 'wpjobster_paytech_enable_withdraw', 'yes' );
 
-				} elseif ( $options['wpjobster_sample_withdrawal_enable'] == 'automatic' ) {
-					update_option( 'wpjobster_sample_automatic_enable_withdraw', 'yes' );
-					update_option( 'wpjobster_sample_enable_withdraw', 'no' );
+				} elseif ( $options['wpjobster_paytech_withdrawal_enable'] == 'automatic' ) {
+					update_option( 'wpjobster_paytech_automatic_enable_withdraw', 'yes' );
+					update_option( 'wpjobster_paytech_enable_withdraw', 'no' );
 
-				} elseif ( $options['wpjobster_sample_withdrawal_enable'] == 'manual' ) {
-					update_option( 'wpjobster_sample_automatic_enable_withdraw', 'no' );
-					update_option( 'wpjobster_sample_enable_withdraw', 'yes' );
+				} elseif ( $options['wpjobster_paytech_withdrawal_enable'] == 'manual' ) {
+					update_option( 'wpjobster_paytech_automatic_enable_withdraw', 'no' );
+					update_option( 'wpjobster_paytech_enable_withdraw', 'yes' );
 
 				} else {
-					update_option( 'wpjobster_sample_automatic_enable_withdraw', 'no' );
-					update_option( 'wpjobster_sample_enable_withdraw', 'no' );
+					update_option( 'wpjobster_paytech_automatic_enable_withdraw', 'no' );
+					update_option( 'wpjobster_paytech_enable_withdraw', 'no' );
 
 				}
 			}
 		}
 
 		public function displayAdminAutomaticWithdrawalButton( $default, $row ) {
-			if ( strtolower( $row->methods ) == 'sample' ) {
-				$wpjobster_sample_client_id  = wpj_get_option( 'wpjobster_sample_client_id' );
-				$wpjobster_sample_secret_key = wpj_get_option( 'wpjobster_sample_secret_key' );
+			if ( strtolower( $row->methods ) == 'paytech' ) {
+				$wpjobster_paytech_client_id  = wpj_get_option( 'wpjobster_paytech_client_id' );
+				$wpjobster_paytech_secret_key = wpj_get_option( 'wpjobster_paytech_secret_key' );
 
-				if ( ! empty( $wpjobster_sample_client_id ) && ! empty( $wpjobster_sample_secret_key ) )
-					return wpj_is_payment_type_enabled( 'sample_automatic', 'withdraw' ) ? true : false;
+				if ( ! empty( $wpjobster_paytech_client_id ) && ! empty( $wpjobster_paytech_secret_key ) )
+					return wpj_is_payment_type_enabled( 'paytech_automatic', 'withdraw' ) ? true : false;
 
 				return false;
 			}
@@ -345,22 +345,22 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 		}
 
 		public function displayProcessPaymentRequestButton( $payment_type ) {
-			$wpjobster_sample_withdrawal_enable = wpj_get_option( 'wpjobster_sample_automatic_enable_withdraw' );
-			if ( $payment_type == 'withdrawal' && WPJ_Form::get( 'status', '' ) == 'pending' && wpj_is_payment_type_enabled( 'sample_automatic', 'withdraw' ) ) { ?>
+			$wpjobster_paytech_withdrawal_enable = wpj_get_option( 'wpjobster_paytech_automatic_enable_withdraw' );
+			if ( $payment_type == 'withdrawal' && WPJ_Form::get( 'status', '' ) == 'pending' && wpj_is_payment_type_enabled( 'paytech_automatic', 'withdraw' ) ) { ?>
 
-				<input class="button-secondary" type="submit" value="<?php echo __( 'Process Sample Requests', 'wpjobster-sample' ); ?>" name="processSamplePayRequest" id="processSamplePayRequest" />
+				<input class="button-secondary" type="submit" value="<?php echo __( 'Process Paytech Requests', 'wpjobster-paytech' ); ?>" name="processPaytechPayRequest" id="processPaytechPayRequest" />
 
 				<script>
 					jQuery( document ).ready( function( $ ) {
 
 						$( 'a.mark-order-completed' ).on( 'click', function( e ) {
 
-							if ( $( this ).hasClass( 'sample' ) ) {
+							if ( $( this ).hasClass( 'paytech' ) ) {
 								e.preventDefault();
 
 								$( this ).parents( 'tr' ).find( 'input[type="checkbox"]' ).prop( "checked", true );
 
-								$( '#processSamplePayRequest' ).trigger( 'click' );
+								$( '#processPaytechPayRequest' ).trigger( 'click' );
 							}
 						});
 
@@ -372,12 +372,12 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 		public function processPaymentRequest() {
 
-			if ( ! empty( $_POST['processSamplePayRequest'] ) ) {
+			if ( ! empty( $_POST['processPaytechPayRequest'] ) ) {
 
-				$wpjobster_sample_client_id  = wpj_get_option( 'wpjobster_sample_client_id' );
-				$wpjobster_sample_secret_key = wpj_get_option( 'wpjobster_sample_secret_key' );
+				$wpjobster_paytech_client_id  = wpj_get_option( 'wpjobster_paytech_client_id' );
+				$wpjobster_paytech_secret_key = wpj_get_option( 'wpjobster_paytech_secret_key' );
 
-				if ( $wpjobster_sample_client_id && $wpjobster_sample_secret_key ) {
+				if ( $wpjobster_paytech_client_id && $wpjobster_paytech_secret_key ) {
 
 					global $wpdb;
 
@@ -385,12 +385,12 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 					if ( isset( $_POST['requests'] ) ) {
 						foreach ( $_POST['requests'] as $id ) {
-							$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}job_withdraw WHERE id = %d AND methods LIKE '%Sample%'", $id ) );
+							$row = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}job_withdraw WHERE id = %d AND methods LIKE '%Paytech%'", $id ) );
 
 							if ( ! empty( $row ) && $row->done == 0 ) {
-								$sample_payee_id = wpj_user( $row->uid, 'sample_automatic_payee_id' ) ? wpj_user( $row->uid, 'sample_automatic_payee_id' ) : $row->payeremail;
+								$paytech_payee_id = wpj_user( $row->uid, 'paytech_automatic_payee_id' ) ? wpj_user( $row->uid, 'paytech_automatic_payee_id' ) : $row->payeremail;
 
-								$payout_info[$id]['payee_id'] = $sample_payee_id;
+								$payout_info[$id]['payee_id'] = $paytech_payee_id;
 								$payout_info[$id]['amount']   = $row->amount;
 								$payout_info[$id]['userid']   = $row->uid;
 								$payout_info[$id]['uniqueid'] = $id;
@@ -410,7 +410,7 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 						echo '
 							<div class="notice notice-error is-dismissible">
-								<p>' . __( 'No Sample order selected!', 'wpjobster-sample' ) . '</p>
+								<p>' . __( 'No Paytech order selected!', 'wpjobster-paytech' ) . '</p>
 							</div>
 						';
 
@@ -420,7 +420,7 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 					echo '
 						<div class="notice notice-error is-dismissible">
-							<p>' . __( 'Please fill Client ID and Secret Key fields!', 'wpjobster-sample' ) . '</p>
+							<p>' . __( 'Please fill Client ID and Secret Key fields!', 'wpjobster-paytech' ) . '</p>
 						</div>
 					';
 
@@ -436,13 +436,13 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 		public function addGatewayToPaymentsWithdrawalList( $default_gateways ) {
 			$uid = get_current_user_id();
 
-			if ( ! empty ( wpj_get_option( 'wpjobster_sample_withdrawal_enable' ) ) && wpj_get_option( 'wpjobster_sample_withdrawal_enable' ) != "disabled" ) {
-				if ( get_user_meta( $uid, 'sample_email', true ) || get_user_meta( $uid, 'sample_automatic_payee_id', true ) ) $meta = true;
+			if ( ! empty ( wpj_get_option( 'wpjobster_paytech_withdrawal_enable' ) ) && wpj_get_option( 'wpjobster_paytech_withdrawal_enable' ) != "disabled" ) {
+				if ( get_user_meta( $uid, 'paytech_email', true ) || get_user_meta( $uid, 'paytech_automatic_payee_id', true ) ) $meta = true;
 				else $meta = false;
 
-				$default_gateways['sample'] = array(
-					'name'  => 'sample',
-					'label' => __( 'Sample', 'wpjobster' ),
+				$default_gateways['paytech'] = array(
+					'name'  => 'paytech',
+					'label' => __( 'Paytech', 'wpjobster' ),
 					'meta'  => $meta
 				);
 			}
@@ -451,17 +451,17 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 		}
 
 		public function addGatewayDetailsInputToPaymentsWithdrawalList( $gateway ) {
-			if ( $gateway['name'] == 'sample' ) {
+			if ( $gateway['name'] == 'paytech' ) {
 
 				$uid = get_current_user_id();
 
-				if ( ! empty( get_user_meta( $uid, 'sample_email', true ) ) ) { ?>
+				if ( ! empty( get_user_meta( $uid, 'paytech_email', true ) ) ) { ?>
 
-					<input value="<?php echo __( 'Sample Email', 'wpjobster-sample' ) . ': ' . get_user_meta( $uid, 'sample_payment_email', true ); ?>" type="hidden" size="30" name="details" />
+					<input value="<?php echo __( 'Paytech Email', 'wpjobster-paytech' ) . ': ' . get_user_meta( $uid, 'paytech_payment_email', true ); ?>" type="hidden" size="30" name="details" />
 
-				<?php } elseif ( ! empty( get_user_meta( $uid, 'sample_automatic_payee_id', true ) ) ) { ?>
+				<?php } elseif ( ! empty( get_user_meta( $uid, 'paytech_automatic_payee_id', true ) ) ) { ?>
 
-					<input value="<?php echo __( 'Sample Payee ID','wpjobster-sample' ) . ': ' . get_user_meta( $uid, 'sample_automatic_payee_id', true ); ?>" type="hidden" size="30" name="details" />
+					<input value="<?php echo __( 'Paytech Payee ID','wpjobster-paytech' ) . ': ' . get_user_meta( $uid, 'paytech_automatic_payee_id', true ); ?>" type="hidden" size="30" name="details" />
 
 				<?php }
 
@@ -477,11 +477,11 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 			if ( ! empty( $error ) ) wpj_deactivate_plugin( plugin_basename( __FILE__ ), $error );
 
-			do_action( 'wpj_after_plugin_compatibility_errors', WPJ_SAMPLE_VERSION, 'Sample', plugin_basename( __FILE__ ), WPJ_SAMPLE_REQUIRED_THEME_VERSION );
+			do_action( 'wpj_after_plugin_compatibility_errors', WPJ_PAYTECH_VERSION, 'Paytech', plugin_basename( __FILE__ ), WPJ_PAYTECH_REQUIRED_THEME_VERSION );
 		}
 
 		public function translateGatewayName( $strings ) {
-			$strings['sample'] = _x( 'Sample', 'Sample gateway', 'wpjobster' );
+			$strings['paytech'] = _x( 'Paytech', 'Paytech gateway', 'wpjobster' );
 			return $strings;
 		}
 
@@ -496,4 +496,4 @@ if ( ! class_exists( "WPJobster_Sample_Loader" ) ) {
 
 } // END IF CLASS EXIST
 
-add_action( 'after_setup_theme', array( 'WPJobster_Sample_Loader', 'init' ) );
+add_action( 'after_setup_theme', array( 'WPJobster_Paytech_Loader', 'init' ) );
