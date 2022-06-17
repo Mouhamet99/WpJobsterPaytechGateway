@@ -17,6 +17,35 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // Defines
 define( 'WPJ_PAYTECH_VERSION'               , '3.0.3' );
 define( 'WPJ_PAYTECH_REQUIRED_THEME_VERSION', '6.0.9' );
+const ROOT_URL_BASE         = "https://paytech.sn";
+const PAYMENT_REQUEST_PATH  = '/api/payment/request-payment';
+const PAYMENT_REDIRECT_PATH = '/payment/checkout/';
+const MOBILE_CANCEL_URL     = "https://paytech.sn/mobile/cancel";
+const MOBILE_SUCCESS_URL    = "https://paytech.sn/mobile/success";
+const IPN_PATH = "/paytech/v5.0.0/ipn";
+
+add_action( 'wp_enqueue_scripts', 'paytech_cdn' );
+
+
+
+function paytech_cdn(){
+
+    wp_register_style( 'PayTech', 'https://paytech.sn/cdn/paytech.min.css' );
+    wp_enqueue_style('PayTech');
+
+    wp_register_script( 'PayTech', 'https://paytech.sn/cdn/paytech.min.js', null, null, true );
+    wp_enqueue_script('PayTech');
+
+    wp_register_script( 'Paytech-Checkout',  plugins_url( '/assets/js/checkout.js' , __FILE__ ), null, null, true );
+    wp_enqueue_script('Paytech-Checkout');
+
+    $options = @get_option('woocommerce_paytech_settings', array());
+
+    if($options['open_mode'] === 'popup'){
+        wp_register_script( 'Paytech-Open-Mode',  plugins_url( '/assets/js/open-mode-popup.js' , __FILE__ ), null, null, true );
+        wp_enqueue_script('Paytech-Open-Mode');
+    }
+}
 
 if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 
@@ -280,8 +309,9 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 				$user_info = get_userdata( $uid );
 
 				// Action URL
-				if ( wpj_get_option( 'wpjobster_' . $this->unique_id . '_enable_sandbox' ) == 'yes' ) $payment_url = 'https://paytech.url';
-				else $payment_url = 'https://test.paytech.url';
+			/* 	if ( wpj_get_option( 'wpjobster_' . $this->unique_id . '_enable_sandbox' ) == 'yes' ) $payment_url = ROOT_URL_BASE.PAYMENT_REQUEST_PATH;
+				else $payment_url = 'https://test.paytech.url'; */
+				$payment_url = ROOT_URL_BASE.PAYMENT_REQUEST_PATH;
 
 				// Send data to Paytech
 				$fields = array();
