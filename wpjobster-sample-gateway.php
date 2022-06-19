@@ -90,14 +90,14 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 										'indent'    => true,
 									),
 									array(
-										'unique_id' => 'wpjobster_paytech_id',
+										'unique_id' => 'wpjobter_paytech_api_key',
 										'type'      => 'text',
-										'title'     => __( 'Paytech ID', 'wpjobster-paytech' ),
+										'title'     => __( 'Clé API Paytech', 'wpjobster-paytech' ),
 									),
 									array(
-										'unique_id' => 'wpjobster_paytech_key',
+										'unique_id' => 'wpjobter_paytech_secret_key',
 										'type'      => 'text',
-										'title'     => __( 'Paytech Key', 'wpjobster-paytech' )
+										'title'     => __( 'Clé secrete Paytech', 'wpjobster-paytech' )
 									),
 
 									array(
@@ -116,7 +116,8 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 										'unique_id'   => 'wpjobster_paytech_withdraw_enablesandbox',
 										'type'        => 'switch',
 										'title'       => __( 'Enable test mode', 'wpjobster-paytech' ),
-										'description' => __( 'Enable/Disable paytech withdrawal test mode.', 'wpjobster-paytech' )
+										'description' => __( 'Enable/Disable paytech withdrawal test mode.', 'wpjobster-paytech' ),
+										'default' => 'yes'
 									),
 									array(
 										'unique_id' => 'wpjobster_paytech_client_id',
@@ -129,12 +130,12 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 										'title'     => __( 'Paytech secret key', 'wpjobster-paytech' )
 									),
 									//Added FIELD
-									 array(
-										'unique_id'=>'enabled',
-										'title' => __('Activer/Désactiver', 'wpjobster-paytech'),
-										'type' => 'checkbox',
-										'label' => __('Activer le module de paiement PAYTECH.', 'wpjobster-paytech'),
-										'default' => 'no'),
+									//  array(
+									// 	'unique_id'=>'enabled',
+									// 	'title' => __('Activer/Désactiver', 'wpjobster-paytech'),
+									// 	'type' => 'checkbox',
+									// 	'label' => __('Activer le module de paiement PAYTECH.', 'wpjobster-paytech'),
+									// 	'default' => 'no'),
 									 array(
 										'unique_id'=>'title',
 										'title' => __('Titre:', 'wpjobster-paytech'),
@@ -148,16 +149,16 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 										'description' => __('Description que verra le client lors du paiement de sa commande.', 'paytech'),
 										'default' => __('Payer via PayTech avec Visa, MasterCard, Orange Money, Free Money…', 'paytech', 'paytech')),
 					
-									 array(
-										'unique_id'=>'api_key',
-										'title' => __("Clé de l'api", 'wpjobster-paytech'),
-										'type' => 'text',
-										'description' => __("Clé de l'api fournie par PAYTECH ")),
-									 array(
-										'unique_id'=>'secret_key',
-										'title' => __("Clé secrete de l'api", 'wpjobster-paytech'),
-										'type' => 'text',
-										'description' => __('Clé secrete fournie par PAYTECH .')),
+									//  array(
+									// 	'unique_id'=>'api_key',
+									// 	'title' => __("Clé de l'api", 'wpjobster-paytech'),
+									// 	'type' => 'text',
+									// 	'description' => __("Clé de l'api fournie par PAYTECH ")),
+									//  array(
+									// 	'unique_id'=>'secret_key',
+									// 	'title' => __("Clé secrete de l'api", 'wpjobster-paytech'),
+									// 	'type' => 'text',
+									// 	'description' => __('Clé secrete fournie par PAYTECH .')),
 									 array(
 										'unique_id'=>'env',
 										'title' => __("Environnement", 'wpjobster-paytech'),
@@ -300,7 +301,7 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 			// Callback URL
 			$callback_url = get_bloginfo( 'url' ) . '/?payment_response=' . $this->unique_id . '&payment_id=' . $payment_row->id;
 
-			if ( wpj_get_option( 'wpjobster_paytech_id' ) && wpj_get_option( 'wpjobster_paytech_key' ) ) {
+			if ( wpj_get_option( 'wpjobter_paytech_api_key' ) && wpj_get_option( 'wpjobter_paytech_secret_key' ) ) {
 
 				// User info
 				$uid       = get_current_user_id();
@@ -314,8 +315,8 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 				// Send data to Paytech
 				$fields = array();
 
-				$fields['merchant_id']    = wpj_get_option( 'wpjobster_paytech_id' );
-				$fields['merchant_key']   = wpj_get_option( 'wpjobster_paytech_key' );
+				$fields['api_key']    = wpj_get_option( 'wpjobter_paytech_api_key' );
+				$fields['secret_key']   = wpj_get_option( 'wpjobter_paytech_secret_key' );
 
 				$fields['payment_id']     = $payment_row->id;
 				$fields['order_id']       = $order_details['id'];
