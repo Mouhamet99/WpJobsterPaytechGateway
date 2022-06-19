@@ -69,10 +69,10 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 								'gateway_id'           => $this->unique_id, // gateway id
 								'gateway_name'         => 'Paytech', // gateway name
 								'gateway_version'      => WPJ_PAYTECH_VERSION, // gateway version
-								'gateway_instructions' => array( // gateway instructions
-									'Do you have any special instructions for your gateway?',
-									'You can put them here.',
-								),
+								// 'gateway_instructions' => array( // gateway instructions
+								// 	'Do you have any special instructions for your gateway?',
+								// 	'You can put them here.',
+								// ),
 								'license'              => false, // include license field
 								'enable'               => true, // include enable field
 								'enable_sandbox'       => true, // include enable sandbox field
@@ -119,15 +119,15 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 										'description' => __( 'Enable/Disable paytech withdrawal test mode.', 'wpjobster-paytech' ),
 										'default' => 'yes'
 									),
-									array(
-										'unique_id' => 'wpjobster_paytech_client_id',
-										'type'      => 'text',
-										'title'     => __( 'Paytech client ID', 'wpjobster-paytech' ),
-									),
-									array(
-										'unique_id' => 'wpjobster_paytech_secret_key',
-										'type'      => 'text',
-										'title'     => __( 'Paytech secret key', 'wpjobster-paytech' )
+									// array(
+									// 	'unique_id' => 'wpjobster_paytech_api_key',
+									// 	'type'      => 'text',
+									// 	'title'     => __( 'Paytech client ID', 'wpjobster-paytech' ),
+									// ),
+									// array(
+									// 	'unique_id' => 'wpjobster_paytech_secret_key',
+									// 	'type'      => 'text',
+									// 	'title'     => __( 'Paytech secret key', 'wpjobster-paytech' )
 									),
 									//Added FIELD
 									//  array(
@@ -159,14 +159,14 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 									// 	'title' => __("Clé secrete de l'api", 'wpjobster-paytech'),
 									// 	'type' => 'text',
 									// 	'description' => __('Clé secrete fournie par PAYTECH .')),
-									 array(
-										'unique_id'=>'env',
-										'title' => __("Environnement", 'wpjobster-paytech'),
-										'description' => __('Votre envirionnement de travail TEST ou PRODUCTION.'),
-										'css' => 'padding:0%;',
-										'type' => 'select',
-										'options' => array('prod' => 'Production', 'test' => 'Test'),
-									),
+									//  array(
+									// 	'unique_id'=>'env',
+									// 	'title' => __("Environnement", 'wpjobster-paytech'),
+									// 	'description' => __('Votre envirionnement de travail TEST ou PRODUCTION.'),
+									// 	'css' => 'padding:0%;',
+									// 	'type' => 'select',
+									// 	'options' => array('prod' => 'Production', 'test' => 'Test'),
+									// ),
 					
 									 array(
 										'unique_id'=>'status_after_payment',
@@ -429,10 +429,10 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 
 		public function displayAdminAutomaticWithdrawalButton( $default, $row ) {
 			if ( strtolower( $row->methods ) == 'paytech' ) {
-				$wpjobster_paytech_client_id  = wpj_get_option( 'wpjobster_paytech_client_id' );
+				$wpjobster_paytech_api_key  = wpj_get_option( 'wpjobster_paytech_api_key' );
 				$wpjobster_paytech_secret_key = wpj_get_option( 'wpjobster_paytech_secret_key' );
 
-				if ( ! empty( $wpjobster_paytech_client_id ) && ! empty( $wpjobster_paytech_secret_key ) )
+				if ( ! empty( $wpjobster_paytech_api_key ) && ! empty( $wpjobster_paytech_secret_key ) )
 					return wpj_is_payment_type_enabled( 'paytech_automatic', 'withdraw' ) ? true : false;
 
 				return false;
@@ -471,10 +471,10 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 
 			if ( ! empty( $_POST['processPaytechPayRequest'] ) ) {
 
-				$wpjobster_paytech_client_id  = wpj_get_option( 'wpjobster_paytech_client_id' );
+				$wpjobster_paytech_api_key  = wpj_get_option( 'wpjobster_paytech_api_key' );
 				$wpjobster_paytech_secret_key = wpj_get_option( 'wpjobster_paytech_secret_key' );
 
-				if ( $wpjobster_paytech_client_id && $wpjobster_paytech_secret_key ) {
+				if ( $wpjobster_paytech_api_key && $wpjobster_paytech_secret_key ) {
 
 					global $wpdb;
 
