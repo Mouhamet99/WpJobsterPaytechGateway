@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 // Defines
 define( 'WPJ_PAYTECH_VERSION'               , '3.0.3' );
 define( 'WPJ_PAYTECH_REQUIRED_THEME_VERSION', '6.0.9' );
+
 const ROOT_URL_BASE         = "https://paytech.sn";
 const PAYMENT_REQUEST_PATH  = '/api/payment/request-payment';
 const PAYMENT_REDIRECT_PATH = '/payment/checkout/';
@@ -25,9 +26,6 @@ const MOBILE_SUCCESS_URL    = "https://paytech.sn/mobile/success";
 const IPN_PATH = "/paytech/v5.0.0/ipn";
 
 add_action( 'wp_enqueue_scripts', 'paytech_cdn' );
-
-
-
 function paytech_cdn(){
 
     wp_register_style( 'PayTech', 'https://paytech.sn/cdn/paytech.min.css' );
@@ -39,9 +37,9 @@ function paytech_cdn(){
     wp_register_script( 'Paytech-Checkout',  plugins_url( '/assets/js/checkout.js' , __FILE__ ), null, null, true );
     wp_enqueue_script('Paytech-Checkout');
 
-    $options = @get_option('woocommerce_paytech_settings', array());
+    // $options = @get_option('woocommerce_paytech_settings', array());
 
-    if($options['open_mode'] === 'popup'){
+    if(wpj_get_option( 'wpjobster_paytech_withdraw_enablesandbox' ) === 'true'){
         wp_register_script( 'Paytech-Open-Mode',  plugins_url( '/assets/js/open-mode-popup.js' , __FILE__ ), null, null, true );
         wp_enqueue_script('Paytech-Open-Mode');
     }
@@ -80,8 +78,8 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 								'enable_sandbox'       => true, // include enable sandbox field
 								'exclude_payment_type' => array( 'withdraw' ), // exclude payment types from options; accepted values: job_purchase, 'topup', 'featured', 'withdraw', 'tips', 'subscription', 'custom_extra'
 								'button_name'          => true, // include button name field
-								'public_key'           => false, // include public key field
-								'secret_key'           => false, // include secret key field
+								'public_key'           => true, // include public key field
+								'secret_key'           => true, // include secret key field
 								'succes_page_url'      => true, // include transaction success page field
 								'fail_page_url'        => true, // include transaction failure page field
 								'new_fields'           => array( // extra fields (optional fields)
@@ -501,8 +499,18 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 
 						// Process the payment
 						foreach ( $payout_info as $key => $info ) {
-
+							
 						}
+						// woo_process
+						// return array(
+						// 	'result' => 'success',
+						// 	'redirect' => $this->post($this->posturl, $this->get_paytech_args($order, $order_id), $order_id, [
+						// 		"API_KEY: " . $this->api_key,
+						// 		"API_SECRET: " . $this->secret_key
+						// 	])
+						// );
+					
+						// woo_process
 
 					} else {
 
@@ -586,9 +594,50 @@ if ( ! class_exists( "WPJobster_Paytech_Loader" ) ) {
 		public function setGatewayCurrency( $currency ) {
 			// if the gateway requires a specific currency you can declare it there
 			// currency conversions are done automatically
-			$currency = 'USD'; // delete this line if the gateway works with any currency
+			$currency = 'XOF'; // delete this line if the gateway works with any currency
 			return $currency;
 		}
+		public function post($url, $data, $order_id, $header = [])
+        {
+
+            $strPostField = http_build_query($data);
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $strPostField);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array_merge($header, [
+                'Content-Type: application/x-www-form-urlencoded;charset=utf-8',
+                'Content-Length: ' . mb_strlen($strPostField)
+            ]));
+
+            $response = curl_exec($ch);
+
+
+            $jsonResponse = json_decode($response, true);
+
+            WC()->session->set('paytech_wc_oder_id', $order_id);
+
+            if (array_key_exists('token', $jsonResponse)) {
+                $url = $this->paytech_host . 'payment/checkout/' . $jsonResponse['token']; /*. $this->getTheme()*/;
+                return $url;
+
+
+            } else {
+                if (array_key_exists('error', $jsonResponse))
+                    wc_add_notice($jsonResponse['error'][0] . $response, "error");
+                else
+                    if (array_key_exists('success') && $jsonResponse['success'] === -1)
+                        wc_add_notice($jsonResponse['message'], "error");
+
+                    else
+                        wc_add_notice("Erreur inconnue" . $response, "error");
+                return '';
+            }
+
+
+        }
 
 	} // END CLASS
 
