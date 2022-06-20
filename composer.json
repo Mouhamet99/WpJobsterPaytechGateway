@@ -1,0 +1,5 @@
+{
+    "require": {
+        "papihack/paytech-php-client": "^1.0"
+    }
+}
